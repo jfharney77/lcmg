@@ -80,6 +80,7 @@ if "%NEED_UV_INIT%"=="1" (
         echo Failed to add uvicorn.
         exit /b 1
     )
+    echo Adding fastapi again to ensure it's in the lock file and venv, even if it was already added before...
     uv add fastapi
     if errorlevel 1 (
         echo Failed to add fastapi.
