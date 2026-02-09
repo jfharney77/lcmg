@@ -75,6 +75,11 @@ if "%NEED_UV_INIT%"=="1" (
         echo Failed to add ariadne.
         exit /b 1
     )
+    uv add uvicorn
+    if errorlevel 1 (
+        echo Failed to add uvicorn.
+        exit /b 1
+    )
     echo Generating virtual environment using uv...
     uv sync
     if errorlevel 1 (
