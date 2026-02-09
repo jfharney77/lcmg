@@ -22,18 +22,18 @@ echo Using project root: "%PROJ_ROOT%"
 rem === Configuration section ===
 
 
+set "NEED_UV_INIT=0"
+
 rem === check to see if uv.lock exists ===
 if not exist "%PROJ_ROOT%\uv.lock" (
     echo uv.lock not found in project root "%PROJ_ROOT%".
-    echo Please run 'uv_generate_lock.bat' to create the lock file before generating the venv.
-    exit /b 1
+    set "NEED_UV_INIT=1"
 )
 
 rem === check to see if pyproject.toml exists ===
 if not exist "%PROJ_ROOT%\pyproject.toml" (
     echo pyproject.toml not found in project root "%PROJ_ROOT%".
-    echo Please ensure pyproject.toml exists before generating the venv.
-    exit /b 1
+    set "NEED_UV_INIT=1"
 )
 
 rem === change iunto the PROJ_ROOT directory ===
@@ -44,12 +44,45 @@ if errorlevel 1 (
 )
 
 rem === Run uv sync to create/update the virtual environment ===
-echo Generating virtual environment using uv...
-uv sync
-if errorlevel 1 (
-    echo Failed to generate virtual environment using uv.
-    exit /b 1
+if "%NEED_UV_INIT%"=="0" (
+    echo Generating virtual environment using uv...
+    uv sync
+    if errorlevel 1 (
+        echo uv sync failed. Will initialize project and add dependencies.
+        set "NEED_UV_INIT=1"
+    )
 )
+
+if "%NEED_UV_INIT%"=="1" (
+    echo Initializing project with uv and adding required dependencies...
+    uv init
+    if errorlevel 1 (
+        echo uv init failed.
+        exit /b 1
+    )
+    uv add requests>=2.32.5
+    if errorlevel 1 (
+        echo Failed to add requests.
+        exit /b 1
+    )
+    uv add fastapi>=0.128.0
+    if errorlevel 1 (
+        echo Failed to add fastapi.
+        exit /b 1
+    )
+    uv add ariadne>=0.27.1
+    if errorlevel 1 (
+        echo Failed to add ariadne.
+        exit /b 1
+    )
+    echo Generating virtual environment using uv...
+    uv sync
+    if errorlevel 1 (
+        echo Failed to generate virtual environment using uv after initialization.
+        exit /b 1
+    )
+)
+
 echo Virtual environment generated successfully.
 
 endlocal
