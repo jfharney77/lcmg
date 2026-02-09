@@ -1,27 +1,26 @@
-
 [project]
-name = "uvdemo2"
+name = "lcmg"
 version = "0.1.0"
 description = "Add your description here"
 readme = "README.md"
-requires-python = ">=3.11"
+requires-python = ">=3.12"
 dependencies = [
-    "requests>=2.32.5",
+    "argparse>=1.4.0",
+    "ariadne>=0.27.1",
     "channels>=4.3.2",
     "daphne>=4.2.1",
     "dotenv>=0.9.9",
-    "pydantic>=2.12.5",
-    "langchain-mcp-adapters>=0.2.1",
     "fastapi>=0.128.0",
-    "fastmcp>=2.14.2",
-    "pandas>=2.3.3",
-    "langchain>=1.2.2",
-    "langchain-openai>=1.1.7",
-    "argparse>=1.4.0",
-    "langgraph-prebuilt>=1.0.5",
-    "openpyxl>=3.1.5",
+    "fastmcp>2.14.2",
     "flask>=3.1.2",
+    "langchain>=1.2.2",
+    "langchain-mcp-adapters>=0.2.1",
+    "langchain-openai>=1.1.7",
+    "langgraph-prebuilt>=1.0.5",
     "neo4j>=6.1.0",
+    "openpyxl>=3.1.5",
+    "pandas>=2.3.3",
+    "pydantic>=2.12.5",
     "python-pptx>=0.6.21",
-    "ariadne>=0.27.1",
+    "requests>=2.32.5",
 ]
